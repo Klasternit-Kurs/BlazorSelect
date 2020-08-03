@@ -1,0 +1,53 @@
+﻿@page "/counter"
+
+<select @bind=Trenutni>
+	@foreach(Osoba o in lstOsobe)
+	{
+		<option value=@o.Id>@o.Ime @o.Prezime</option>
+	}
+</select>
+@_trenutni.Ime
+
+@code {
+	private Osoba _trenutni = new Osoba();
+
+	public string Trenutni
+	{
+		get => _trenutni.Id.ToString();
+		set
+		{
+			_trenutni = lstOsobe.Find(os => os.Id.ToString() == value);
+			StateHasChanged();
+		}
+	}
+
+	List<Osoba> lstOsobe = new List<Osoba>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		Osoba o = new Osoba();
+		o.Id = 1;
+		o.Ime = "Pera";
+		o.Prezime = "Peric";
+		lstOsobe.Add(o);
+		o = new Osoba();
+		o.Id = 2;
+		o.Ime = "Neko";
+		o.Prezime = "Nekic";
+		lstOsobe.Add(o);
+		o = new Osoba();
+		o.Id = 3;
+		o.Ime = "Trecko";
+		o.Prezime = "Treckovic";
+		lstOsobe.Add(o);
+	}
+
+
+
+	public class Osoba
+	{
+		public int Id { get; set; }
+		public string Ime { get; set; }
+		public string Prezime { get; set; }
+	}
+}
